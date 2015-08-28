@@ -1,7 +1,4 @@
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html>
 <head>
   <title>PHP test</title>
   <meta charset="utf-8">
@@ -16,13 +13,12 @@
         })
 
      function callListener() {
-        var apiKey      = 'cf4c660b8cb57283d6e07bbc878ac8fb'; // Replace with your own key
-        var apiPassword = 'Pa$$w0rd1'; // Replace with your password
+        var apiKey      = 'cf4c660b8cb57283d6e07bbc878ac8fb';
+        var apiPassword = 'Pa$$w0rd1';
         var sortcode = $('#sortcode').val();
         var bankaccount = $('#bankaccount').val();
         var postData = 'key=' + apiKey + '&password=' + apiPassword + '&output=json&type=uk&sortcode=' + sortcode + '&bankaccount=' + bankaccount;
 
-        // Cross-Domain javascript call
         $.getJSON("https://www.bankaccountchecker.com/listener.php?" + postData + "&callback=?",
            function(data) {
                 $("#testResult").show();
@@ -30,7 +26,8 @@
                 $("#resultDescription").text(data.resultDescription);
                 if(result.text() == "01") {
                   alert("Success.");
-                }                
+                  $.post( "backend3.php", { sortcode: sortcode, bankaccount: bankaccount } );
+                }
            });
         }
 
