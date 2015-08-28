@@ -40,12 +40,12 @@ Any Css/Html Framework
 
 Technology not allowed
 MVC framework (zen, codeigniter, ….)
-Mysql extension, pdo and adodb 
+Mysql extension, pdo and adodb
 
 
 Deliverables:
 You should provide a url to a Assembla SVN account. If you do not have an Assembla account, you will need to create a free account at https://www.assembla.com/home
-The software should be committed to your free SVN repository, and we should be able to deploy it directly under an Apache installation. 
+The software should be committed to your free SVN repository, and we should be able to deploy it directly under an Apache installation.
 You should provide simple installation instruction to guide the implementation through the setup of the software and DB components.
 
 Timescales:
@@ -57,3 +57,27 @@ The look of the web page is not important.
 Technical Constraints:
 
 You should not use the html <form> tag.
+
+
+
+# INSTRUCTION
+--Installation--
+Restore the db from terminal, example
+
+$ mysql -u root -p ukbank < BankAccount_ukbank.sql
+
+Restart MySQL and Apache
+
+/etc/init.d/mysql
+
+the project should be under /var/www
+
+apache2ctl restart
+
+Check it online
+
+go to http://localhost/UKbankaccountValidator
+
+And you can insert a new number that you'll see in the db
+
+NOTE: For simplicity I didn't parse errors back, neither I put https nor Database with more than one table (not in the requirements)
