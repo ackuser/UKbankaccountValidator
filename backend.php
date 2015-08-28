@@ -1,27 +1,50 @@
 <?php
+if(isset($_POST['sortcode']) && isset($_POST['bankaccount'])
+&& strlen($_POST['sortcode']) == 6 && strlen($_POST['bankaccount']) == 8
+&& is_numeric($_POST['sortcode']) && is_numeric($_POST['bankaccount'])) {
 
-$con = mysqli_connect("localhost","root",'Pa$$w0rd',"BankAccount");
 
-// Check connection
-if (mysqli_connect_errno())
-  {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  $servername = "localhost";
+  $username = "root";
+  $password = 'Pa$$w0rd';
+  $dbname = "BankAccount";
+
+  // Create connection
+  $conn = new mysqli($servername, $username, $password, $dbname);
+  // Check connection
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
   }
-else {
-  echo "We've connected to MySQL";
-  $sql='SELECT * FROM ukbank';
 
-$rs=$con->query($sql);
-if($rs === false) {
-  trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $con->error, E_USER_ERROR);
+  $sortcode = $_POST['sortcode'];
+  $bankaccount = $_POST['bankaccount'];
+  $ipaddress = $_SERVER['REMOTE_ADDR'];
+  $datetime = date('Y-m-d H:i:s');;
+
+  $sql = "INSERT INTO `ukbank`(`sortcode`, `bankaccount`, `ipaddress`, `datetime`)
+  VALUES ('".$sortcode."', '".$bankaccount."', '".$ipaddress."', '".$datetime."')";
+
+  if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+  } else {
+      echo "Error: " . $sql . "\n" . $conn->error;
+  }
+
+$sql = "SELECT * FROM ukbank";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+      print "<pre>";
+      print_r($row);
+      print "</pre>";
+    }
 } else {
-  $rows_returned = $rs->num_rows;
-  echo "Displaying" . $rows_returned;
-  while($row = mysqli_fetch_assoc($rs)) {
-    print "<pre>";
-    print_r($row);
-    print "</pre>";
+    echo "0 results";
 }
-}
+
+
+$conn->close();
 }
 ?>
